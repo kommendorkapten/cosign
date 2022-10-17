@@ -52,8 +52,8 @@ If any step is failing, abort verification unless otherwise specified.
          trusted by the provided root certificates. If not, proceed with
          the next signed timestamp.
       2. Verify that the timestamp token's signature is valid.
-      3. Recreate the digest of the artifact using the algorithm
-         specified in the timestamp token.
+      3. Recreate the digest of the artifact's signature using the
+         algorithm specified in the timestamp token.
       4. Compare the computed digest with the one in the timestamp
          token.
       5. Verify that the artifact was witnessed by the timestamp

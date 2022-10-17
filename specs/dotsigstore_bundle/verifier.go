@@ -211,15 +211,14 @@ func verifyRfc3161Ts(b *bundle, tst TimestampToken, blob string, opts Options) e
 		return ErrInvalidTimestamp
 	}
 	// Recalculate the message digest and compare with the value in the
-	// timestamp token. Note that the hash algorithm in the timestamp
-	// token may differ from the one in the message signature.
+	// timestamp token. The message digest is computed over the signature.
 	var alg = tst.TstInfo.MessageImprint.HashAlgorithm
 	var digest = tst.TstInfo.MessageImprint.HashedMessage
 	var data []byte
 	if b.GetDsseEnvelope() != nil {
-		data = b.GetDsseEnvelope().Payload
+		data = b.GetDsseEnvelope().Signature[0]
 	} else {
-		data = io.ReadAll(blob)
+		data = b.GetMessageSignature.Signature
 	}
 	if digest != calculateDigest(data, alg) {
 		return ErrDigestMismatch
