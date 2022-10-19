@@ -32,17 +32,19 @@ If any step is failing, abort verification unless otherwise specified.
       chain is valid and trusted by the provided root certificate.
 3. Verify transparency log inclusion.
    1. For each transparency log entry:
-      1. Recreate the Rekor entry from the bundle and blob (if provided).
-      2. Get the public key for the log. Go to next entry if no key is
+      1. Verify that the kind/version is exactly the same as the
+         previous entry's (omit for the first entry).
+      2. Recreate the Rekor entry from the bundle and blob (if provided).
+      3. Get the public key for the log. Go to next entry if no key is
          found.
-      3. Verify that the entry was included onto the log during the time
+      4. Verify that the entry was included onto the log during the time
          the signing certificate was valid (skip if signature was made
          with a key-pair).
-      4. Verify that the inclusion proof (SET) is sound given the log's
+      5. Verify that the inclusion proof (SET) is sound given the log's
          public key.
-      5. If requested, perform an online inclusion proof against the
+      6. If requested, perform an online inclusion proof against the
          log.
-      6. Increment the number of successful transparency log
+      7. Increment the number of successful transparency log
          verifications.
    2. Compare the number of successful transparency log verifications
       against the provided threshold.

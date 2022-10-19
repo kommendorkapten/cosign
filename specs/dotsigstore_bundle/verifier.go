@@ -69,7 +69,17 @@ func Verify(b *bundle, blobPath string, opts Options) error {
 	}
 
 	var verifiedOk = 0
+	var last *TransparencyLogEntry
 	for entry = range b.TimestampVerificationData.GetTLogEntries() {
+		if last != nil {
+			if last.KindVersion.Kind != entry.KindVersion.Kind {
+				continue
+			}
+			if last.KindVersion.Version != entry.KindVersion.Version {
+				continue
+			}
+		}
+		last = entry
 		err = verifyRekor(b, entry, blobPath, opts); err != nil {
 			log(err)
 		}
