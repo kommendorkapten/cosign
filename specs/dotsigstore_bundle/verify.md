@@ -6,6 +6,7 @@
 * Parameters/trust root material
   * Signature verification material. One of: a public key or a X509
     root certificate
+  * Root certificate for verifying CT signature.
   * A list of X509 root certificates for trust timestamp authorities.
   * A threshold in minimum number of signatures from a timestamp authority.
   * A list of public keys for the transparency log (Rekor)

@@ -20,6 +20,9 @@ type Options {
 	Verifier Verifier
 	// User provided root certificate for verifying certificate chain.
 	RootCertificate *x509.Certificate
+	// User provided root certificate for verifying CT signature of the
+	// signing certificate.
+	CTRootCertificate *x509.Certificate
 	// Map of trusted root certificates when verifying RFC3161 signed
 	// timestamps. Indexex by their 'Name'.
 	Rfc3162RootCertificates map[pkix.Name]*x509.Certificate
@@ -120,7 +123,7 @@ func getVerifier(b *bundle, opts Options) Verifier {
 		// * The entire certificate chain is consistent up to the
 		//   root certificate, *and* that the root certificate
 		//   matches the user provided.
-		return x509Verifier(chain, opts.RootCertificate)
+		return x509Verifier(chain, opts.RootCertificate, opts.CTRootCertificate)
 	}
 }
 
